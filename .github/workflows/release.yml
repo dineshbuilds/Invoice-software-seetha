@@ -1,0 +1,40 @@
+name: Build and publish Windows release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Publish GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $installer = Get-ChildItem -Path release -Filter '*.exe' -File | Select-Object -First 1
+          if (-not $installer) {
+            throw 'No Windows installer was produced in the release folder.'
+          }
+          gh release create $env:GITHUB_REF_NAME $installer.FullName --title "Billfold Billing $env:GITHUB_REF_NAME" --generate-notes
