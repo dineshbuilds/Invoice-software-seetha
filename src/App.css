@@ -166,9 +166,10 @@ button { cursor: pointer; }
 .invoice-wrap .dispatch-toolbar { width: min(100%, 210mm); max-width: 210mm; margin: 0 auto 12px; }
 .invoice-wrap .dispatch-sheet { width: min(100%, 210mm); max-width: 210mm; min-height: 297mm; height: 297mm; margin: 0 auto; box-sizing: border-box; }
 @media print {
-	.invoice-wrap .dispatch-root { width: 202mm !important; padding: 0 !important; background: #fff !important; }
+	.invoice-wrap:has(.dispatch-root) { top: 0; left: 0; width: 210mm; max-width: 210mm; transform: none; }
+	.invoice-wrap .dispatch-root { width: 210mm !important; padding: 0 !important; background: #fff !important; }
 	.invoice-wrap .dispatch-toolbar { display: none !important; }
-	.invoice-wrap .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: auto !important; min-height: 0 !important; margin: 0 auto !important; box-sizing: border-box; overflow: visible; zoom: 1.12; transform-origin: top center; }
+	.invoice-wrap .dispatch-sheet { width: 210mm !important; max-width: 210mm !important; height: 297mm !important; max-height: 297mm !important; min-height: 0 !important; margin: 0 !important; box-sizing: border-box; overflow: hidden; transform-origin: top center; }
 	.invoice-wrap .dispatch-sheet { font-size: 13.5px !important; }
 	.invoice-wrap .dispatch-head { min-height: 138px !important; padding-top: 18px !important; }
 	.invoice-wrap .dispatch-logo { top: 22px !important; width: 95px !important; height: 90px !important; }
@@ -182,4 +183,10 @@ button { cursor: pointer; }
 	.invoice-wrap .dispatch-value-field { height: 58px !important; min-height: 58px !important; }
 	.invoice-wrap .dispatch-reference, .invoice-wrap .dispatch-pending, .invoice-wrap .dispatch-total, .invoice-wrap .dispatch-footer { font-size: 13px !important; }
 	.invoice-wrap .dispatch-footer { min-height: 86px !important; padding: 32px 28px 12px !important; }
+}
+@media (max-width: 640px) {
+	.invoice-wrap .dispatch-pending-row { grid-template-columns: 24px minmax(0, 1fr); gap: 5px; }
+	.invoice-wrap .dispatch-pending-row > span:nth-child(n + 2) { grid-column: 2; min-width: 0; }
+	.invoice-wrap .dispatch-column-title { white-space: normal; overflow-wrap: anywhere; }
+	.invoice-wrap .dispatch-head h2 { max-width: 100%; padding: 2px 8px; font-size: 20px !important; }
 }

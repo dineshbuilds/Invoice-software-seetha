@@ -114,8 +114,9 @@ function DispatchNote({ initialInvoice, sellerProfile, clients, savedInvoices, o
   const buildInvoice = () => ({ ...initialInvoice, invoice_kind: "dispatch", invoice_no: invoiceNo, date: invoiceDate, client_id: buyer.id || null, notes: JSON.stringify({ dispatch, pending }), items: [{ description: "Babbins", hsn: "", qty: Number(dispatch.bobbins) || 0, unit: "Nos", rate: 0, amount: 0 }, { description: "Kondies", hsn: "", qty: Number(dispatch.kondies) || 0, unit: "Nos", rate: 0, amount: 0 }] });
   const save = () => onSave?.(buildInvoice());
   const print = async () => { const saved = await onSave?.(buildInvoice()); if (onPrint) await onPrint(saved || buildInvoice()); else window.print(); };
-  const field = (name, placeholder = "") => <input value={dispatch[name]} placeholder={placeholder} onChange={(event) => updateDispatch(name, event.target.value)} />;
-  const multiLineField = (name) => <textarea className="dispatch-value-field" rows={3} maxLength={48} value={dispatch[name]} onChange={(event) => updateDispatch(name, event.target.value)} />;
+  const fieldLabels = { lrNo: "L.R. number", lrDate: "L.R. date", bNo: "B. number", bDate: "B. date" };
+  const field = (name, placeholder = "") => <input aria-label={fieldLabels[name] || name} value={dispatch[name]} placeholder={placeholder} onChange={(event) => updateDispatch(name, event.target.value)} />;
+  const multiLineField = (name) => <textarea aria-label={`Dispatch ${name}`} className="dispatch-value-field" rows={3} maxLength={48} value={dispatch[name]} onChange={(event) => updateDispatch(name, event.target.value)} />;
 
   return <div className="ib-root dispatch-root">
     <style>{` .dispatch-root { background: #e6e5e1; padding: 24px 14px 56px; font-family: Arial, Helvetica, sans-serif; color: #1e397f; } .dispatch-toolbar { max-width: 760px; margin: 0 auto 12px; display: flex; justify-content: flex-end; gap: 7px; } .dispatch-toolbar button { padding: 9px 16px; border: 1px solid #1e397f; background: #fff; color: #1e397f; cursor: pointer; } .dispatch-sheet { width: min(100%, 760px); min-height: 1060px; margin: 0 auto; border: 2px solid #1e397f; background: #fff; } .dispatch-head { position: relative; padding: 18px 18px 12px 125px; min-height: 138px; border-bottom: 2px solid #1e397f; text-align: center; } .dispatch-logo { position: absolute; left: 14px; top: 22px; width: 95px; height: 90px; object-fit: contain; } .dispatch-gstin { position: absolute; left: 14px; top: 7px; font-size: 11px; font-weight: 700; } .dispatch-phone { position: absolute; right: 12px; top: 7px; font-size: 11px; font-weight: 700; } .dispatch-head h2 { display: inline-block; margin: 16px 0 4px; padding: 3px 13px; border: 2px solid #1e397f; border-radius: 4px; font: 700 25px Georgia, serif; } .dispatch-head h3 { margin: 0 0 6px; font: 700 16px Georgia, serif; } .dispatch-head p { margin: 0; white-space: pre-line; font-size: 12px; font-weight: 700; } .dispatch-meta { display: grid; grid-template-columns: 1fr 180px; gap: 18px; padding: 10px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-meta label { display: block; margin-bottom: 7px; } .dispatch-meta input, .dispatch-head input, .dispatch-table input, .dispatch-pending input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-section-title { margin: 0; padding: 7px 13px; font-size: 15px; } .dispatch-table { width: 100%; border-collapse: collapse; table-layout: fixed; } .dispatch-table th, .dispatch-table td { padding: 7px 8px; border: 1px solid #1e397f; font-size: 12px; text-align: center; } .dispatch-table th { height: 43px; font-size: 11px; } .dispatch-table td { height: 72px; vertical-align: top; } .dispatch-table th:first-child, .dispatch-table td:first-child { width: 28%; } .dispatch-table th:nth-child(2), .dispatch-table td:nth-child(2) { width: 28%; } .dispatch-table th:nth-child(3), .dispatch-table td:nth-child(3) { width: 22%; } .dispatch-reference { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 12px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-reference > div { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 6px; align-items: center; } .dispatch-reference input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-pending { padding: 8px 13px 12px; } .dispatch-pending > strong { display: block; margin-bottom: 6px; } .dispatch-pending-row { display: grid; grid-template-columns: 25px 1.2fr 1fr 1fr; gap: 6px; padding: 5px 0; font-size: 12px; } .dispatch-total { padding: 6px 13px; text-align: right; border-top: 1px solid #1e397f; font-size: 12px; } .dispatch-footer { min-height: 145px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 18px 28px; border-top: 2px solid #1e397f; } .dispatch-footer strong { margin-bottom: 35px; } .dispatch-sheet input:focus { outline: none; background: #f1f4fb; } @media print { .dispatch-root { width: 210mm; min-height: 297mm; padding: 0; background: #fff; } .dispatch-toolbar { display: none; } .dispatch-sheet { width: 210mm; min-height: 297mm; border: 2px solid #1e397f; box-shadow: none; } } @media (max-width: 640px) { .dispatch-head { padding: 104px 12px 12px; } .dispatch-logo { top: 26px; left: 12px; width: 72px; height: 72px; } .dispatch-gstin, .dispatch-phone { top: 7px; } .dispatch-meta, .dispatch-reference { grid-template-columns: 1fr; } .dispatch-pending-row { grid-template-columns: 25px 1fr 1fr; } .dispatch-pending-row input:last-child { grid-column: 2 / -1; } } `}</style>
@@ -124,12 +125,12 @@ function DispatchNote({ initialInvoice, sellerProfile, clients, savedInvoices, o
     <div className="dispatch-toolbar"><button onClick={save}>Save invoice</button><button onClick={print}>Print</button></div>
     <div className="dispatch-sheet">
       <header className="dispatch-head"><img className="dispatch-logo" src={logoImage} alt="Business logo" /><span className="dispatch-gstin">GSTIN : {seller.gstin}</span><span className="dispatch-phone">{formatPhoneLines(seller.phone).join(", ")}</span><h2>{seller.name}</h2><h3>{seller.tagline}</h3><p>{seller.address}</p></header>
-      <div className="dispatch-meta"><label><span>To: M/s</span><div><input className="dispatch-buyer-name" value={buyer.name} onChange={(event) => setBuyer({ ...buyer, name: event.target.value })} /><textarea className="dispatch-buyer-address" rows={2} value={buyer.address || ""} onChange={(event) => setBuyer({ ...buyer, address: event.target.value })} />{clients.length > 0 && <select className="ib-print-hide" value={buyer.id || ""} onChange={(event) => { const client = clients.find((entry) => entry.id === Number(event.target.value)); if (client) setBuyer(client); }}><option value="">Select saved client</option>{clients.map((client) => <option key={client.id} value={client.id}>{client.name}</option>)}</select>}</div></label><label><span>Dispatch No.</span><input value={invoiceNo} onChange={(event) => setInvoiceNo(event.target.value)} /><span>Date</span><input type="date" value={invoiceDate} onChange={(event) => setInvoiceDate(event.target.value)} /></label></div>
+      <div className="dispatch-meta"><label><span>To: M/s</span><div><input aria-label="Buyer name" className="dispatch-buyer-name" value={buyer.name} onChange={(event) => setBuyer({ ...buyer, name: event.target.value })} /><textarea aria-label="Buyer address" className="dispatch-buyer-address" rows={2} value={buyer.address || ""} onChange={(event) => setBuyer({ ...buyer, address: event.target.value })} />{clients.length > 0 && <select aria-label="Saved client" className="ib-print-hide" value={buyer.id || ""} onChange={(event) => { const client = clients.find((entry) => entry.id === Number(event.target.value)); if (client) setBuyer(client); }}><option value="">Select saved client</option>{clients.map((client) => <option key={client.id} value={client.id}>{client.name}</option>)}</select>}</div></label><label><span>Dispatch No.</span><input aria-label="Dispatch number" value={invoiceNo} onChange={(event) => setInvoiceNo(event.target.value)} /><span>Date</span><input aria-label="Dispatch date" type="date" value={invoiceDate} onChange={(event) => setInvoiceDate(event.target.value)} /></label></div>
       <h3 className="dispatch-section-title">To day we have dispatched</h3>
       <h4 className="dispatch-section-title">1. BABBINS</h4><table className="dispatch-table"><thead><tr><th><span className="dispatch-column-title">ILAI</span></th><th><span className="dispatch-column-title">MTRS</span></th><th><span className="dispatch-column-title">TOTAL<br />BABBINS Nos</span></th></tr></thead><tbody><tr><td>{multiLineField("bobbins")}</td><td>{multiLineField("bobbinMeters")}</td><td>{multiLineField("totalBobbins")}</td></tr></tbody></table>
       <h4 className="dispatch-section-title">2. KONDIES</h4><table className="dispatch-table"><thead><tr><th><span className="dispatch-column-title">KONDIES</span></th><th><span className="dispatch-column-title">FLOWER</span></th><th><span className="dispatch-column-title">TOTAL<br />KONDIES</span></th><th><span className="dispatch-column-title">TOTAL BUNDLE</span></th></tr></thead><tbody><tr><td>{multiLineField("kondies")}</td><td>{multiLineField("flower")}</td><td>{multiLineField("totalKondies")}</td><td>{multiLineField("totalBundle")}</td></tr></tbody></table>
       <div className="dispatch-reference"><div><span>Through L.R.No</span>{field("lrNo")}<span>Date</span>{field("lrDate")}</div><div><span>B.No.</span>{field("bNo")}<span>Date</span>{field("bDate")}</div></div>
-      <div className="dispatch-pending"><strong>Pending Bills</strong>{pending.map((row, index) => <div className="dispatch-pending-row" key={index}><span>{index + 1}.</span><span>Bill No. {activePendingPicker === index && <select className="dispatch-invoice-picker" autoFocus value="" onChange={(event) => selectPendingInvoice(index, event.target.value)}><option value="">Select saved invoice</option>{pastInvoices.map((entry) => <option key={entry.id} value={entry.id}>{entry.invoice_no || "Unnumbered"} - {entry.date}</option>)}</select>}<input value={row.bill} onClick={() => setActivePendingPicker(index)} onFocus={() => setActivePendingPicker(index)} onChange={(event) => updatePending(index, { bill: event.target.value })} /></span><span>Date <input value={row.date} onChange={(event) => updatePending(index, { date: event.target.value })} /></span><span>Amount <input value={row.amount} onChange={(event) => updatePending(index, { amount: event.target.value })} /></span></div>)}</div>
+      <div className="dispatch-pending"><strong>Pending Bills</strong>{pending.map((row, index) => <div className="dispatch-pending-row" key={index}><span>{index + 1}.</span><span>Bill No. {activePendingPicker === index && <select aria-label={`Saved invoice for pending bill ${index + 1}`} className="dispatch-invoice-picker" autoFocus value="" onChange={(event) => selectPendingInvoice(index, event.target.value)}><option value="">Select saved invoice</option>{pastInvoices.map((entry) => <option key={entry.id} value={entry.id}>{entry.invoice_no || "Unnumbered"} - {entry.date}</option>)}</select>}<input aria-label={`Pending bill number ${index + 1}`} value={row.bill} onClick={() => setActivePendingPicker(index)} onFocus={() => setActivePendingPicker(index)} onChange={(event) => updatePending(index, { bill: event.target.value })} /></span><span>Date <input aria-label={`Pending bill date ${index + 1}`} value={row.date} onChange={(event) => updatePending(index, { date: event.target.value })} /></span><span>Amount <input aria-label={`Pending bill amount ${index + 1}`} value={row.amount} onChange={(event) => updatePending(index, { amount: event.target.value })} /></span></div>)}</div>
       <div className="dispatch-total">Total Amount ₹ {formatINR(pendingTotal)}</div><div className="dispatch-footer"><span>Rupees in words: {pendingAmountInWords}</span><strong>Signature</strong></div>
     </div>
   </div>;
@@ -716,16 +717,19 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           <div className="ib-brand">
             <img className="ib-brand-logo" src={logoImage} alt="Business logo" />
             <input
+              aria-label="Business name"
               className="ib-brand-name"
               value={seller.name}
               onChange={(e) => setSeller({ ...seller, name: e.target.value })}
             />
             <input
+              aria-label="Business tagline"
               className="ib-brand-tagline"
               value={seller.tagline}
               onChange={(e) => setSeller({ ...seller, tagline: e.target.value })}
             />
             <textarea
+              aria-label="Business address"
               className="ib-brand-address"
               rows={2}
               value={seller.address}
@@ -734,6 +738,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
             <div className="ib-brand-row">
               <label>GSTIN</label>
               <input
+                aria-label="Business GSTIN"
                 className="ib-field"
                 style={{ textAlign: "left" }}
                 value={seller.gstin}
@@ -752,10 +757,11 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           <div className="ib-party">
             <div className="ib-party-label">Client</div>
             <div className="ib-client-autocomplete">
-              <input className="ib-party-field ib-name" placeholder="Buyer / client name" value={buyer.name} onFocus={() => setClientSuggestionsOpen(true)} onChange={(e) => { setBuyer({ ...buyer, id: undefined, name: e.target.value }); setClientSuggestionsOpen(true); }} onBlur={() => setTimeout(() => setClientSuggestionsOpen(false), 150)} />
+              <input aria-label="Buyer / client name" className="ib-party-field ib-name" placeholder="Buyer / client name" value={buyer.name} onFocus={() => setClientSuggestionsOpen(true)} onChange={(e) => { setBuyer({ ...buyer, id: undefined, name: e.target.value }); setClientSuggestionsOpen(true); }} onBlur={() => setTimeout(() => setClientSuggestionsOpen(false), 150)} />
               {clientSuggestionsOpen && matchingClients.length > 0 && <div className="ib-suggestion-menu">{matchingClients.map((client) => <button type="button" key={client.id} className="ib-suggestion-item" onMouseDown={() => selectClient(client)}><strong>{client.name}</strong><small>{client.address || 'Saved client'}</small></button>)}</div>}
             </div>
             <textarea
+              aria-label="Buyer address"
               className="ib-party-field"
               rows={2}
               placeholder="Address"
@@ -766,17 +772,17 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           </div>
           <div className="ib-party">
             <div className="ib-party-label">Invoice details</div>
-            <div className="ib-party-inline"><div className="ib-inline-item"><label>State code</label><input value={seller.stateCode} onChange={(e) => setSeller({ ...seller, stateCode: e.target.value })} /></div><div className="ib-inline-item"><label>State name</label><input value={seller.stateName || ""} onChange={(e) => setSeller({ ...seller, stateName: e.target.value })} /></div></div>
+            <div className="ib-party-inline"><div className="ib-inline-item"><label>State code</label><input aria-label="State code" value={seller.stateCode} onChange={(e) => setSeller({ ...seller, stateCode: e.target.value })} /></div><div className="ib-inline-item"><label>State name</label><input aria-label="State name" value={seller.stateName || ""} onChange={(e) => setSeller({ ...seller, stateName: e.target.value })} /></div></div>
             <div className="ib-invoice-meta">
-              <div className="ib-meta-row"><label>Invoice No.</label><input className="ib-field" value={invoiceNo} onChange={(e) => setInvoiceNo(e.target.value)} /></div>
-              <div className="ib-meta-row"><label>Date</label><input className="ib-field" type="date" value={invoiceDate} onChange={(e) => setInvoiceDate(e.target.value)} /></div>
+              <div className="ib-meta-row"><label>Invoice No.</label><input aria-label="Invoice number" className="ib-field" value={invoiceNo} onChange={(e) => setInvoiceNo(e.target.value)} /></div>
+              <div className="ib-meta-row"><label>Date</label><input aria-label="Invoice date" className="ib-field" type="date" value={invoiceDate} onChange={(e) => setInvoiceDate(e.target.value)} /></div>
             </div>
           </div>
         </div>
-        <div className="ib-customer-gst"><span><strong>GSTIN</strong><input className="ib-field" value={buyer.gstin} onChange={(e) => setBuyer({ ...buyer, gstin: e.target.value })} /></span><span><strong>Contact number</strong><input className="ib-field" value={buyer.phone || ""} onChange={(e) => setBuyer({ ...buyer, phone: e.target.value })} /></span></div>
+        <div className="ib-customer-gst"><span><strong>GSTIN</strong><input aria-label="Buyer GSTIN" className="ib-field" value={buyer.gstin} onChange={(e) => setBuyer({ ...buyer, gstin: e.target.value })} /></span><span><strong>Contact number</strong><input aria-label="Buyer contact number" className="ib-field" value={buyer.phone || ""} onChange={(e) => setBuyer({ ...buyer, phone: e.target.value })} /></span></div>
         <div className="ib-dispatch">
-          <div className="ib-dispatch-row ib-dispatch-origin"><strong>Goods despatched from Palani to</strong><input value={buyer.shipping || ""} onChange={(e) => setBuyer({ ...buyer, shipping: e.target.value })} /></div>
-          <div className="ib-dispatch-row ib-dispatch-details"><label>Through <input value={buyer.through || ""} onChange={(e) => setBuyer({ ...buyer, through: e.target.value })} /></label><label>L.R.NO <input value={buyer.lrNo || ""} onChange={(e) => setBuyer({ ...buyer, lrNo: e.target.value })} /></label><label>Date <input type="date" value={buyer.dispatchDate || ""} onChange={(e) => setBuyer({ ...buyer, dispatchDate: e.target.value })} /></label></div>
+          <div className="ib-dispatch-row ib-dispatch-origin"><strong>Goods despatched from Palani to</strong><input aria-label="Goods destination" value={buyer.shipping || ""} onChange={(e) => setBuyer({ ...buyer, shipping: e.target.value })} /></div>
+          <div className="ib-dispatch-row ib-dispatch-details"><label>Through <input aria-label="Transport through" value={buyer.through || ""} onChange={(e) => setBuyer({ ...buyer, through: e.target.value })} /></label><label>L.R.NO <input aria-label="L.R. number" value={buyer.lrNo || ""} onChange={(e) => setBuyer({ ...buyer, lrNo: e.target.value })} /></label><label>Date <input aria-label="Dispatch date" type="date" value={buyer.dispatchDate || ""} onChange={(e) => setBuyer({ ...buyer, dispatchDate: e.target.value })} /></label></div>
         </div>
 
         {/* Items */}
@@ -797,7 +803,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
               <tr key={r.id}>
                 <td className="ib-num-col">{i + 1}</td>
                 <td>
-                  <input className="ib-cell-input" value={r.hsn} onChange={(e) => updateRow(r.id, "hsn", e.target.value)} />
+                  <input aria-label={`HSN code row ${i + 1}`} className="ib-cell-input" value={r.hsn} onChange={(e) => updateRow(r.id, "hsn", e.target.value)} />
                 </td>
                 <td className="ib-description-cell">
                   <div className="ib-item-autocomplete">
@@ -807,6 +813,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
                 </td>
                 <td>
                   <input
+                    aria-label={`Quantity row ${i + 1}`}
                     className="ib-cell-input ib-num-col"
                     value={r.qty}
                     onChange={(e) => updateRow(r.id, "qty", e.target.value)}
@@ -815,6 +822,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
                 </td>
                 <td>
                   <input
+                    aria-label={`Rate row ${i + 1}`}
                     className="ib-cell-input ib-num-col"
                     value={r.rate}
                     onChange={(e) => updateRow(r.id, "rate", e.target.value)}
@@ -842,7 +850,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           <div className="ib-words">
             <div className="ib-words-label">Amount in words</div>
             <div className="ib-words-value">{amountInWords}</div>
-            <div className="ib-transport"><div className="ib-transport-row"><strong>Transportation Mode:</strong><input /></div><div className="ib-transport-row"><strong>Vehicle no:</strong><input /></div><div className="ib-transport-row"><strong>Driver Signature:</strong><input /></div></div>
+            <div className="ib-transport"><div className="ib-transport-row"><strong>Transportation Mode:</strong><input aria-label="Transportation mode" /></div><div className="ib-transport-row"><strong>Vehicle no:</strong><input aria-label="Vehicle number" /></div><div className="ib-transport-row"><strong>Driver Signature:</strong><input aria-label="Driver signature" /></div></div>
           </div>
           <div className="ib-totals">
             <div className="ib-totals-row">
@@ -869,19 +877,19 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
             <div className="ib-bank-label">Bank details</div>
             <div className="ib-bank-row">
               <label>Account name</label>
-              <input value={seller.bankName} onChange={(e) => setSeller({ ...seller, bankName: e.target.value })} />
+                  <input aria-label="Bank account name" value={seller.bankName} onChange={(e) => setSeller({ ...seller, bankName: e.target.value })} />
             </div>
             <div className="ib-bank-row">
               <label>A/c No.</label>
-              <input value={seller.accNo} onChange={(e) => setSeller({ ...seller, accNo: e.target.value })} />
+                  <input aria-label="Bank account number" value={seller.accNo} onChange={(e) => setSeller({ ...seller, accNo: e.target.value })} />
             </div>
             <div className="ib-bank-row">
               <label>IFSC</label>
-              <input value={seller.ifsc} onChange={(e) => setSeller({ ...seller, ifsc: e.target.value })} />
+                  <input aria-label="Bank IFSC" value={seller.ifsc} onChange={(e) => setSeller({ ...seller, ifsc: e.target.value })} />
             </div>
             <div className="ib-bank-row">
               <label>Branch</label>
-              <input value={seller.branch} onChange={(e) => setSeller({ ...seller, branch: e.target.value })} />
+                  <input aria-label="Bank branch" value={seller.branch} onChange={(e) => setSeller({ ...seller, branch: e.target.value })} />
             </div>
           </div>
           <div className="ib-sign">
