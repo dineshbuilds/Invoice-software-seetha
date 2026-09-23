@@ -169,4 +169,17 @@ button { cursor: pointer; }
 	.invoice-wrap .dispatch-root { width: 202mm !important; padding: 0 !important; background: #fff !important; }
 	.invoice-wrap .dispatch-toolbar { display: none !important; }
 	.invoice-wrap .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: 275mm !important; min-height: 0 !important; margin: 0 auto !important; box-sizing: border-box; overflow: hidden; }
+	.invoice-wrap .dispatch-sheet { font-size: 13.5px !important; }
+	.invoice-wrap .dispatch-head { min-height: 138px !important; padding-top: 18px !important; }
+	.invoice-wrap .dispatch-logo { top: 22px !important; width: 95px !important; height: 90px !important; }
+	.invoice-wrap .dispatch-head h2 { margin-top: 16px !important; font-size: 25px !important; }
+	.invoice-wrap .dispatch-head h3 { font-size: 16px !important; }
+	.invoice-wrap .dispatch-head p { font-size: 12px !important; }
+	.invoice-wrap .dispatch-meta { padding: 10px 13px !important; font-size: 13px !important; }
+	.invoice-wrap .dispatch-section-title { padding: 7px 13px !important; font-size: 16px !important; }
+	.invoice-wrap .dispatch-table th, .invoice-wrap .dispatch-table td { padding: 7px 8px !important; font-size: 13px !important; }
+	.invoice-wrap .dispatch-table td { height: 72px !important; }
+	.invoice-wrap .dispatch-value-field { height: 58px !important; min-height: 58px !important; }
+	.invoice-wrap .dispatch-reference, .invoice-wrap .dispatch-pending, .invoice-wrap .dispatch-total, .invoice-wrap .dispatch-footer { font-size: 13px !important; }
+	.invoice-wrap .dispatch-footer { min-height: 130px !important; padding: 58px 28px 12px !important; }
 }
