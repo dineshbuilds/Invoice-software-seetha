@@ -168,7 +168,7 @@ button { cursor: pointer; }
 @media print {
 	.invoice-wrap .dispatch-root { width: 202mm !important; padding: 0 !important; background: #fff !important; }
 	.invoice-wrap .dispatch-toolbar { display: none !important; }
-	.invoice-wrap .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: auto !important; min-height: 0 !important; margin: 0 auto !important; box-sizing: border-box; overflow: visible; }
+	.invoice-wrap .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: auto !important; min-height: 0 !important; margin: 0 auto !important; box-sizing: border-box; overflow: visible; zoom: 1.12; transform-origin: top center; }
 	.invoice-wrap .dispatch-sheet { font-size: 13.5px !important; }
 	.invoice-wrap .dispatch-head { min-height: 138px !important; padding-top: 18px !important; }
 	.invoice-wrap .dispatch-logo { top: 22px !important; width: 95px !important; height: 90px !important; }
