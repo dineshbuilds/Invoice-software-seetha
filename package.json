@@ -1,9 +1,9 @@
 {
-  "name": "my-billing-app",
-  "description": "Offline Windows billing and invoice application",
+  "name": "billfold-billing",
+  "description": "Billfold Billing desktop invoice and billing application",
   "author": "Billfold",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k \"vite --host 127.0.0.1 --port 5175 --strictPort\" \"tsc -p tsconfig.electron.json --watch\" \"wait-on http://127.0.0.1:5175 dist-electron/main.js && electron .\"",
@@ -36,22 +36,28 @@
   "build": {
     "appId": "com.billfold.billing",
     "productName": "Billfold Billing",
+    "artifactName": "Billfold-Billing-Setup-${version}.${ext}",
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
       "package.json"
     ],
     "directories": {
-      "output": "release"
+      "output": "C:\\BillfoldBillingRelease"
     },
     "win": {
       "target": "nsis",
-      "icon": "build/icon.png"
+      "icon": "src/assets/logo.ico",
+      "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true
+      "createDesktopShortcut": true,
+      "installerIcon": "src/assets/logo.ico",
+      "installerHeaderIcon": "src/assets/logo.ico",
+      "shortcutName": "Billfold Billing",
+      "uninstallDisplayName": "Billfold Billing"
     }
   }
 }
