@@ -137,3 +137,26 @@ button { cursor: pointer; }
 	.invoice-wrap .ib-footer { min-height: 135px; }
 	.invoice-wrap .ib-sign-for { margin-bottom: 38px; }
 }
+
+/* Application shell and archive readability */
+@media (min-width: 641px) {
+	.app-shell { height: 100vh; min-height: 0; overflow: hidden; }
+	.sidebar { position: fixed; inset: 0 auto 0 0; height: 100vh; overflow-y: auto; }
+	.main-content { height: 100vh; margin-left: 244px; overflow-y: auto; }
+}
+.main-content { font-size: 14px; }
+.nav-item { font-size: 14px; }
+.panel-subtitle, .library-row p, .data-tools p, .archive-settings p { font-size: 13px; }
+.invoice-list-row { padding: 15px 16px; }
+.invoice-list-row strong { font-size: 15px; }
+.invoice-list-row small { font-size: 12px; }
+.invoice-list-row > span:not(:first-child) { font-size: 13px; }
+.invoice-delete { font-size: 12px; }
+.numbering-panel { max-width: 1040px; margin: 24px auto 0; padding: 20px 26px; display: grid; grid-template-columns: minmax(0, 1fr) 180px 180px auto; align-items: end; gap: 16px; border: 1px solid #e0e6de; border-radius: 14px; background: rgba(255,255,253,.83); box-shadow: 0 12px 30px rgba(30, 55, 43, .04); }
+.numbering-panel h2 { margin: 5px 0 4px; color: #173f32; font-size: 19px; }
+.numbering-panel p { margin: 0; color: #87958c; font-size: 13px; line-height: 1.45; }
+.numbering-panel label { display: grid; gap: 7px; color: #66736b; font-size: 12px; font-weight: 700; }
+.numbering-panel input { width: 100%; padding: 10px 11px; border: 1px solid #dce4dc; border-radius: 7px; color: #27342d; background: #fafcf9; outline: none; }
+.numbering-panel input:focus { border-color: #90b69b; box-shadow: 0 0 0 3px #e7f1e8; }
+@media (max-width: 850px) and (min-width: 641px) { .main-content { margin-left: 190px; } .numbering-panel { grid-template-columns: 1fr 1fr; } .numbering-panel > div { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .numbering-panel { margin: 20px 12px 0; padding: 18px 14px; grid-template-columns: 1fr; } .numbering-panel .solid-button { width: 100%; } }

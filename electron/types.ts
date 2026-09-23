@@ -15,6 +15,8 @@ export interface BusinessProfile {
   branch: string
   default_tax_rate: number
   invoice_prefix: string
+  invoice_start_number: number
+  dispatch_invoice_start_number: number
   archive_path?: string
 }
 

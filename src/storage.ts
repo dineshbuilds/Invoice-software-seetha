@@ -19,6 +19,8 @@ const defaultSettings: BusinessProfile = {
   branch: '',
   default_tax_rate: 5,
   invoice_prefix: '',
+  invoice_start_number: 1,
+  dispatch_invoice_start_number: 1,
   archive_path: '',
 }
 
@@ -69,10 +71,12 @@ export const browserApi: ApiBridge = {
   deleteCatalogItem: async (id) => write(catalogKey, read<CatalogItem[]>(catalogKey, []).filter((item) => item.id !== id)),
   saveInvoice: async (invoice) => {
     const invoices = read<Invoice[]>(invoicesKey, [])
-    const usedNumbers = invoices.map((entry) => Number(String(entry.invoice_no).replace(/\D/g, ''))).filter(Number.isFinite)
-    const nextNumber = usedNumbers.length > 0 ? Math.max(...usedNumbers) + 1 : 1
+    const profile = getStoredSettings()
+    const usedNumbers = invoices.filter((entry) => (entry.invoice_kind || 'gst') === invoice.invoice_kind).map((entry) => Number(String(entry.invoice_no).replace(/\D/g, ''))).filter(Number.isFinite)
+    const configuredStart = invoice.invoice_kind === 'dispatch' ? profile.dispatch_invoice_start_number : profile.invoice_start_number
+    const nextNumber = Math.max(1, configuredStart || 1, ...(usedNumbers.length > 0 ? [Math.max(...usedNumbers) + 1] : []))
     const client = invoice.client_id ? read<Client[]>(clientsKey, []).find((entry) => entry.id === invoice.client_id) : undefined
-    const saved = { ...invoice, id: invoice.id || Date.now(), invoice_no: invoice.invoice_no || `${getStoredSettings().invoice_prefix}${nextNumber}`, ...(client ? { client } : {}) }
+    const saved = { ...invoice, id: invoice.id || Date.now(), invoice_no: invoice.invoice_no || `${profile.invoice_prefix}${nextNumber}`, ...(client ? { client } : {}) }
     write(invoicesKey, invoice.id ? invoices.map((item) => item.id === saved.id ? saved : item) : [...invoices, saved])
     return saved
   },
