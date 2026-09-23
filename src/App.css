@@ -160,3 +160,13 @@ button { cursor: pointer; }
 .numbering-panel input:focus { border-color: #90b69b; box-shadow: 0 0 0 3px #e7f1e8; }
 @media (max-width: 850px) and (min-width: 641px) { .main-content { margin-left: 190px; } .numbering-panel { grid-template-columns: 1fr 1fr; } .numbering-panel > div { grid-column: 1 / -1; } }
 @media (max-width: 640px) { .numbering-panel { margin: 20px 12px 0; padding: 18px 14px; grid-template-columns: 1fr; } .numbering-panel .solid-button { width: 100%; } }
+
+/* Keep dispatch notes on the same A4 frame as invoices. */
+.invoice-wrap .dispatch-root { width: 100%; min-height: 0; padding: 0 0 32px; background: transparent; }
+.invoice-wrap .dispatch-toolbar { width: min(100%, 210mm); max-width: 210mm; margin: 0 auto 12px; }
+.invoice-wrap .dispatch-sheet { width: min(100%, 210mm); max-width: 210mm; min-height: 297mm; height: 297mm; margin: 0 auto; box-sizing: border-box; }
+@media print {
+	.invoice-wrap .dispatch-root { width: 202mm !important; padding: 0 !important; background: #fff !important; }
+	.invoice-wrap .dispatch-toolbar { display: none !important; }
+	.invoice-wrap .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: 275mm !important; min-height: 0 !important; margin: 0 auto !important; box-sizing: border-box; overflow: hidden; }
+}
