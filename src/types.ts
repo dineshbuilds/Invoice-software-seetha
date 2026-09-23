@@ -1,6 +1,6 @@
 export type TaxMode = 'igst' | 'split'
 export type InvoiceKind = 'gst' | 'dispatch'
-export interface BusinessProfile { name: string; tagline: string; address: string; gstin: string; state_code: string; state_name: string; phone: string; bank_name: string; acc_no: string; ifsc: string; branch: string; default_tax_rate: number; invoice_prefix: string; invoice_start_number: number; dispatch_invoice_start_number: number; archive_path?: string }
+export interface BusinessProfile { name: string; tagline: string; address: string; gstin: string; state_code: string; state_name: string; phone: string; account_name: string; bank_name: string; acc_no: string; ifsc: string; branch: string; default_tax_rate: number; invoice_prefix: string; invoice_start_number: number; dispatch_invoice_start_number: number; archive_path?: string }
 export interface Client { id: number; name: string; address: string; gstin: string; state_code: string; phone: string }
 export interface InvoiceItem { id?: number; description: string; hsn: string; qty: number; unit: string; rate: number; amount: number }
 export interface CatalogItem { id: number; description: string; hsn: string; unit: string; rate: number }

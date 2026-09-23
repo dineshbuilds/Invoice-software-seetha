@@ -8,7 +8,7 @@ let db: Database.Database
 
 const defaultProfile: BusinessProfile = {
   name: 'G. VIJAYASAMUNDESWARI', tagline: 'HANDLOOM YARN DESIGNER JOB WORKS', address: '15/32-A.3, Lakshmana Naicker Street, NEIKARAPATTI - 624 615.\nPALANI (Tk), DINDIGUL (Dt), TAMILNADU.',
-  gstin: '33BGOPG1646D1ZN', state_code: '33', state_name: 'Tamil Nadu', phone: '094427 50948\n95855 46429, 94425 93708', bank_name: '', acc_no: '', ifsc: '', branch: '',
+  gstin: '33BGOPG1646D1ZN', state_code: '33', state_name: 'Tamil Nadu', phone: '094427 50948', account_name: 'Vijayasamundeswari.G', bank_name: 'STATE BANK OF INDIA', acc_no: '33184314150', ifsc: 'SBIN0002241', branch: 'Neikkarapatti Branch',
   default_tax_rate: 5, invoice_prefix: '', invoice_start_number: 1, dispatch_invoice_start_number: 1, archive_path: ''
 }
 
@@ -22,7 +22,7 @@ export function initDb() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS business_profile (
       id INTEGER PRIMARY KEY CHECK (id = 1), name TEXT NOT NULL, tagline TEXT NOT NULL, address TEXT NOT NULL,
-      gstin TEXT NOT NULL, state_code TEXT NOT NULL, state_name TEXT NOT NULL DEFAULT '', phone TEXT NOT NULL, bank_name TEXT NOT NULL,
+      gstin TEXT NOT NULL, state_code TEXT NOT NULL, state_name TEXT NOT NULL DEFAULT '', phone TEXT NOT NULL, account_name TEXT NOT NULL DEFAULT '', bank_name TEXT NOT NULL,
       acc_no TEXT NOT NULL, ifsc TEXT NOT NULL, branch TEXT NOT NULL, default_tax_rate REAL NOT NULL, invoice_prefix TEXT NOT NULL, invoice_start_number INTEGER NOT NULL DEFAULT 1, dispatch_invoice_start_number INTEGER NOT NULL DEFAULT 1, archive_path TEXT NOT NULL DEFAULT ''
     );
     CREATE TABLE IF NOT EXISTS clients (
@@ -48,14 +48,15 @@ export function initDb() {
   if (!clientColumns.some((column) => column.name === 'phone')) db.exec("ALTER TABLE clients ADD COLUMN phone TEXT NOT NULL DEFAULT ''")
   const profileColumns = db.prepare('PRAGMA table_info(business_profile)').all() as { name: string }[]
   if (!profileColumns.some((column) => column.name === 'state_name')) db.exec("ALTER TABLE business_profile ADD COLUMN state_name TEXT NOT NULL DEFAULT 'Tamil Nadu'")
+  if (!profileColumns.some((column) => column.name === 'account_name')) db.exec("ALTER TABLE business_profile ADD COLUMN account_name TEXT NOT NULL DEFAULT ''")
   if (!profileColumns.some((column) => column.name === 'archive_path')) db.exec("ALTER TABLE business_profile ADD COLUMN archive_path TEXT NOT NULL DEFAULT ''")
   if (!profileColumns.some((column) => column.name === 'invoice_start_number')) db.exec("ALTER TABLE business_profile ADD COLUMN invoice_start_number INTEGER NOT NULL DEFAULT 1")
   if (!profileColumns.some((column) => column.name === 'dispatch_invoice_start_number')) db.exec("ALTER TABLE business_profile ADD COLUMN dispatch_invoice_start_number INTEGER NOT NULL DEFAULT 1")
   if (!db.prepare('SELECT id FROM business_profile WHERE id = 1').get()) {
-    db.prepare(`INSERT INTO business_profile (id, name, tagline, address, gstin, state_code, state_name, phone, bank_name, acc_no, ifsc, branch, default_tax_rate, invoice_prefix, invoice_start_number, dispatch_invoice_start_number, archive_path)
-      VALUES (1, @name, @tagline, @address, @gstin, @state_code, @state_name, @phone, @bank_name, @acc_no, @ifsc, @branch, @default_tax_rate, @invoice_prefix, @invoice_start_number, @dispatch_invoice_start_number, @archive_path)`).run(defaultProfile)
+    db.prepare(`INSERT INTO business_profile (id, name, tagline, address, gstin, state_code, state_name, phone, account_name, bank_name, acc_no, ifsc, branch, default_tax_rate, invoice_prefix, invoice_start_number, dispatch_invoice_start_number, archive_path)
+      VALUES (1, @name, @tagline, @address, @gstin, @state_code, @state_name, @phone, @account_name, @bank_name, @acc_no, @ifsc, @branch, @default_tax_rate, @invoice_prefix, @invoice_start_number, @dispatch_invoice_start_number, @archive_path)`).run(defaultProfile)
   } else {
-    db.prepare(`UPDATE business_profile SET name=@name, tagline=@tagline, address=@address, gstin=@gstin, state_code=@state_code, state_name=@state_name, phone=@phone, invoice_prefix=@invoice_prefix WHERE name = 'Your Business Name'`).run(defaultProfile)
+    db.prepare(`UPDATE business_profile SET name=@name, tagline=@tagline, address=@address, gstin=@gstin, state_code=@state_code, state_name=@state_name, phone=@phone, account_name=@account_name, bank_name=@bank_name, acc_no=@acc_no, ifsc=@ifsc, branch=@branch, invoice_prefix=@invoice_prefix WHERE id = 1`).run(defaultProfile)
   }
   return dbPath
 }
@@ -115,7 +116,7 @@ export function saveInvoice(invoice: Invoice): Invoice {
 }
 export function deleteInvoice(id: number) { db.prepare('DELETE FROM invoices WHERE id = ?').run(id) }
 export function getSettings() { return { ...(db.prepare('SELECT * FROM business_profile WHERE id = 1').get() as BusinessProfile), archive_path: getArchivePath(), dataPath: path.join(app.getPath('userData'), 'billfold.sqlite3') } }
-export function saveSettings(settings: BusinessProfile) { db.prepare(`UPDATE business_profile SET name=@name, tagline=@tagline, address=@address, gstin=@gstin, state_code=@state_code, state_name=@state_name, phone=@phone, bank_name=@bank_name, acc_no=@acc_no, ifsc=@ifsc, branch=@branch, default_tax_rate=@default_tax_rate, invoice_prefix=@invoice_prefix, invoice_start_number=@invoice_start_number, dispatch_invoice_start_number=@dispatch_invoice_start_number, archive_path=@archive_path WHERE id=1`).run({ ...settings, archive_path: settings.archive_path || '' }); return db.prepare('SELECT * FROM business_profile WHERE id=1').get() as BusinessProfile }
+export function saveSettings(settings: BusinessProfile) { db.prepare(`UPDATE business_profile SET name=@name, tagline=@tagline, address=@address, gstin=@gstin, state_code=@state_code, state_name=@state_name, phone=@phone, account_name=@account_name, bank_name=@bank_name, acc_no=@acc_no, ifsc=@ifsc, branch=@branch, default_tax_rate=@default_tax_rate, invoice_prefix=@invoice_prefix, invoice_start_number=@invoice_start_number, dispatch_invoice_start_number=@dispatch_invoice_start_number, archive_path=@archive_path WHERE id=1`).run({ ...settings, archive_path: settings.archive_path || '' }); return db.prepare('SELECT * FROM business_profile WHERE id=1').get() as BusinessProfile }
 
 export function clearAllData() {
   db.transaction(() => {

@@ -9,6 +9,7 @@ export interface BusinessProfile {
   state_code: string
   state_name: string
   phone: string
+  account_name: string
   bank_name: string
   acc_no: string
   ifsc: string
