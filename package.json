@@ -1,9 +1,9 @@
 {
-  "name": "billfold-billing",
-  "description": "Billfold Billing desktop invoice and billing application",
+  "name": "invoice-software",
+  "description": "Invoice software desktop billing and invoice application",
   "author": "Billfold",
   "private": true,
-  "version": "1.0.1",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k \"vite --host 127.0.0.1 --port 5175 --strictPort\" \"tsc -p tsconfig.electron.json --watch\" \"wait-on http://127.0.0.1:5175 dist-electron/main.js && electron .\"",
@@ -35,15 +35,15 @@
   },
   "build": {
     "appId": "com.billfold.billing",
-    "productName": "Billfold Billing",
-    "artifactName": "Billfold-Billing-Setup-${version}.${ext}",
+    "productName": "Invoice software",
+    "artifactName": "Invoice-software-Setup-${version}.${ext}",
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
       "package.json"
     ],
     "directories": {
-      "output": "C:\\BillfoldBillingRelease"
+      "output": "release"
     },
     "win": {
       "target": "nsis",
@@ -56,8 +56,8 @@
       "createDesktopShortcut": true,
       "installerIcon": "src/assets/logo.ico",
       "installerHeaderIcon": "src/assets/logo.ico",
-      "shortcutName": "Billfold Billing",
-      "uninstallDisplayName": "Billfold Billing"
+      "shortcutName": "Invoice software",
+      "uninstallDisplayName": "Invoice software"
     }
   }
 }
