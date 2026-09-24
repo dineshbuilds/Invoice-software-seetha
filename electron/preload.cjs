@@ -20,4 +20,6 @@ contextBridge.exposeInMainWorld('api', {
   exportData: () => ipcRenderer.invoke('data:export'),
   printInvoice: (id) => ipcRenderer.invoke('print-invoice', id),
   exportInvoicePdf: (id) => ipcRenderer.invoke('export-pdf', id),
+  checkForUpdates: () => ipcRenderer.invoke('updates:check'),
+  installUpdate: () => ipcRenderer.invoke('updates:install'),
 })

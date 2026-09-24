@@ -117,15 +117,15 @@ function DispatchNote({ initialInvoice, sellerProfile, clients, savedInvoices, o
   const print = async () => { const saved = await onSave?.(buildInvoice()); if (onPrint) await onPrint(saved || buildInvoice()); else window.print(); };
   const fieldLabels = { lrNo: "L.R. number", lrDate: "L.R. date", bNo: "B. number", bDate: "B. date" };
   const field = (name, placeholder = "") => <input aria-label={fieldLabels[name] || name} value={dispatch[name]} placeholder={placeholder} onChange={(event) => updateDispatch(name, event.target.value)} />;
-  const multiLineField = (name) => <textarea aria-label={`Dispatch ${name}`} className="dispatch-value-field" rows={5} maxLength={72} value={dispatch[name]} onChange={(event) => updateDispatch(name, event.target.value)} />;
+  const multiLineField = (name) => <textarea aria-label={`Dispatch ${name}`} className="dispatch-value-field" rows={5} value={dispatch[name]} onChange={(event) => updateDispatch(name, event.target.value)} />;
 
   return <div className="ib-root dispatch-root">
-    <style>{` .dispatch-root { background: #e6e5e1; padding: 24px 14px 56px; font-family: Arial, Helvetica, sans-serif; color: #1e397f; } .dispatch-toolbar { max-width: 760px; margin: 0 auto 12px; display: flex; justify-content: flex-end; gap: 7px; } .dispatch-toolbar button { padding: 9px 16px; border: 1px solid #1e397f; background: #fff; color: #1e397f; cursor: pointer; } .dispatch-sheet { width: min(100%, 760px); min-height: 1060px; margin: 0 auto; border: 2px solid #1e397f; background: #fff; } .dispatch-head { position: relative; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 30px 18px 12px; min-height: 138px; border-bottom: 2px solid #1e397f; text-align: center; } .dispatch-head-copy { width: min(100%, 540px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; } .dispatch-logo { position: static; width: 95px; height: 90px; object-fit: contain; flex-shrink: 0; } .dispatch-gstin { position: absolute; left: 14px; top: 7px; font-size: 11px; font-weight: 700; } .dispatch-phone { position: absolute; right: 12px; top: 7px; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 11px; font-weight: 700; text-align: right; } .dispatch-phone-name { display: block; font-size: 11px; font-weight: 800; color: #1e397f; } .dispatch-phone-line { display: flex; align-items: center; gap: 5px; } .dispatch-phone-label { font-size: 10px; font-weight: 700; } .dispatch-head h2 { display: block; width: fit-content; margin: 16px auto 4px; padding: 3px 13px; border: 2px solid #1e397f; border-radius: 4px; font: 700 27px Georgia, serif; } .dispatch-head h3 { margin: 0 auto 6px; font: 700 17px Georgia, serif; } .dispatch-head p { margin: 0 auto; white-space: pre-line; font-size: 12px; font-weight: 700; } .dispatch-meta { display: grid; grid-template-columns: 1fr 180px; gap: 18px; padding: 10px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-meta label { display: block; margin-bottom: 7px; } .dispatch-meta input, .dispatch-head input, .dispatch-table input, .dispatch-pending input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-section-title { margin: 0; padding: 7px 13px; font-size: 15px; } .dispatch-table { width: 100%; border-collapse: collapse; table-layout: fixed; } .dispatch-table th, .dispatch-table td { padding: 7px 8px; border: 1px solid #1e397f; font-size: 12px; text-align: center; } .dispatch-table th { height: 43px; font-size: 11px; } .dispatch-table td { height: 72px; vertical-align: top; } .dispatch-table th:first-child, .dispatch-table td:first-child { width: 28%; } .dispatch-table th:nth-child(2), .dispatch-table td:nth-child(2) { width: 28%; } .dispatch-table th:nth-child(3), .dispatch-table td:nth-child(3) { width: 22%; } .dispatch-reference { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 12px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-reference > div { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 6px; align-items: center; } .dispatch-reference input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-pending { padding: 8px 13px 12px; } .dispatch-pending > strong { display: block; margin-bottom: 6px; } .dispatch-pending-row { display: grid; grid-template-columns: 25px 1.2fr 1fr 1fr; gap: 6px; padding: 5px 0; font-size: 12px; } .dispatch-total { padding: 6px 13px; text-align: right; border-top: 1px solid #1e397f; font-size: 12px; } .dispatch-footer { min-height: 145px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 18px 28px; border-top: 2px solid #1e397f; } .dispatch-footer strong { margin-bottom: 35px; } .dispatch-sheet input:focus { outline: none; background: #f1f4fb; } @media print { .dispatch-root { width: 210mm; min-height: 297mm; padding: 0; background: #fff; } .dispatch-toolbar { display: none; } .dispatch-sheet { width: 210mm; min-height: 297mm; border: 2px solid #1e397f; box-shadow: none; } } @media (max-width: 640px) { .dispatch-head { padding: 104px 12px 12px; } .dispatch-logo { top: 26px; left: 12px; width: 72px; height: 72px; } .dispatch-gstin, .dispatch-phone { top: 7px; } .dispatch-meta, .dispatch-reference { grid-template-columns: 1fr; } .dispatch-pending-row { grid-template-columns: 25px 1fr 1fr; } .dispatch-pending-row input:last-child { grid-column: 2 / -1; } } `}</style>
+    <style>{` .dispatch-root { background: #e6e5e1; padding: 24px 14px 56px; font-family: Arial, Helvetica, sans-serif; color: #1e397f; } .dispatch-toolbar { max-width: 760px; margin: 0 auto 12px; display: flex; justify-content: flex-end; gap: 7px; } .dispatch-toolbar button { padding: 9px 16px; border: 1px solid #1e397f; background: #fff; color: #1e397f; cursor: pointer; } .dispatch-sheet { width: min(100%, 760px); min-height: 1060px; margin: 0 auto; border: 2px solid #1e397f; background: #fff; } .dispatch-head { position: relative; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 10px 18px 6px; min-height: 108px; border-bottom: 2px solid #1e397f; text-align: center; } .dispatch-head-copy { width: min(100%, 540px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-top: 0; } .dispatch-logo { position: static; width: 95px; height: 90px; object-fit: contain; flex-shrink: 0; } .dispatch-gstin { position: absolute; left: 14px; top: 7px; font-size: 11px; font-weight: 700; } .dispatch-phone { position: absolute; right: 12px; top: 7px; display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 11px; font-weight: 700; text-align: right; } .dispatch-phone-name { display: inline; font-size: 11px; font-weight: 800; color: #1e397f; } .dispatch-phone-line { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; white-space: nowrap; margin-top: 0; } .dispatch-phone-label { font-size: 10px; font-weight: 700; } .dispatch-head h2 { display: block; width: fit-content; margin: 0 auto; padding: 3px 13px; border: 2px solid #1e397f; border-radius: 4px; font: 700 27px Georgia, serif; } .dispatch-head h3 { margin: 0 auto; font: 700 17px Georgia, serif; } .dispatch-head p { margin: 0 auto; white-space: pre-line; font-size: 12px; font-weight: 700; } .dispatch-meta { display: grid; grid-template-columns: 1fr 180px; gap: 18px; padding: 10px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-meta label { display: block; margin-bottom: 7px; } .dispatch-meta input, .dispatch-head input, .dispatch-table input, .dispatch-pending input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-section-title { margin: 0; padding: 7px 13px; font-size: 15px; } .dispatch-table { width: 100%; border-collapse: collapse; table-layout: fixed; } .dispatch-table th, .dispatch-table td { padding: 7px 8px; border: 1px solid #1e397f; font-size: 12px; text-align: center; } .dispatch-table th { height: 43px; font-size: 11px; } .dispatch-table td { height: 72px; vertical-align: top; } .dispatch-table th:first-child, .dispatch-table td:first-child { width: 28%; } .dispatch-table th:nth-child(2), .dispatch-table td:nth-child(2) { width: 28%; } .dispatch-table th:nth-child(3), .dispatch-table td:nth-child(3) { width: 22%; } .dispatch-reference { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 12px 13px; border-bottom: 2px solid #1e397f; font-size: 12px; } .dispatch-reference > div { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 6px; align-items: center; } .dispatch-reference input { min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; } .dispatch-pending { padding: 8px 13px 12px; } .dispatch-pending > strong { display: block; margin-bottom: 6px; } .dispatch-pending-row { display: grid; grid-template-columns: 25px 1.2fr 1fr 1fr; gap: 6px; padding: 5px 0; font-size: 12px; } .dispatch-total { padding: 6px 13px; text-align: right; border-top: 1px solid #1e397f; font-size: 12px; } .dispatch-footer { min-height: 145px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 18px 28px; border-top: 2px solid #1e397f; } .dispatch-footer strong { margin-bottom: 35px; } .dispatch-sheet input:focus { outline: none; background: #f1f4fb; } @media print { .dispatch-root { width: 210mm; min-height: 297mm; padding: 0; background: #fff; } .dispatch-toolbar { display: none; } .dispatch-sheet { width: 210mm; min-height: 297mm; border: 2px solid #1e397f; box-shadow: none; } } @media (max-width: 640px) { .dispatch-head { padding: 104px 12px 12px; } .dispatch-logo { top: 26px; left: 12px; width: 72px; height: 72px; } .dispatch-gstin, .dispatch-phone { top: 7px; } .dispatch-meta, .dispatch-reference { grid-template-columns: 1fr; } .dispatch-pending-row { grid-template-columns: 25px 1fr 1fr; } .dispatch-pending-row input:last-child { grid-column: 2 / -1; } } `}</style>
     <style>{` .dispatch-section-title { text-align: center; font-weight: 700; } .dispatch-column-title { display: block; font-weight: 700; line-height: 1.15; white-space: nowrap; } .dispatch-value-field { display: block; width: 100%; height: 92px; min-height: 92px; padding: 0; border: 0; background: transparent; color: #1e397f; font: inherit; line-height: 1.25; resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; text-align: center; } .dispatch-table td { height: 112px; vertical-align: top; } @media print { .dispatch-root { width: 202mm !important; height: auto !important; min-height: 0 !important; padding: 0 !important; background: #fff; } .dispatch-sheet { width: 202mm !important; max-width: 202mm !important; height: 275mm !important; min-height: 0 !important; border: 2px solid #1e397f; box-shadow: none; font-size: 12.5px; overflow: hidden; } .dispatch-table th { height: 48px; } .dispatch-table td { height: 120px; } .dispatch-value-field { height: 110px; min-height: 110px; } }`}</style>
-    <style>{` .dispatch-meta { grid-template-columns: minmax(0, 1fr) 180px; font-size: 13px; font-weight: 700; } .dispatch-meta label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px; align-items: start; } .dispatch-meta label > div { min-width: 0; display: grid; gap: 3px; } .dispatch-buyer-name, .dispatch-buyer-address { width: 100%; min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; font-weight: 700; } .dispatch-buyer-address { height: 42px; resize: none; line-height: 1.35; } .dispatch-meta select { width: fit-content; max-width: 100%; } .dispatch-section-title { font-size: 16px; } .dispatch-table th, .dispatch-table td { font-size: 13px; font-weight: 700; } .dispatch-reference, .dispatch-pending, .dispatch-total, .dispatch-footer { font-size: 13px; font-weight: 700; } .dispatch-pending-row { display: grid; grid-template-columns: 28px minmax(230px, 1.3fr) minmax(130px, .75fr) minmax(150px, .9fr); gap: 10px; align-items: center; padding: 5px 0; } .dispatch-pending-row > span { min-width: 0; } .dispatch-pending-row input, .dispatch-pending-row select { max-width: 100%; } .dispatch-total { text-align: right; } .dispatch-footer { min-height: 130px; padding: 58px 28px 12px; display: flex; justify-content: space-between; align-items: flex-start; } .dispatch-footer strong { margin-left: auto; } @media print { .dispatch-head { min-height: 112px; padding-top: 14px; } .dispatch-logo { top: 17px; width: 78px; height: 75px; } .dispatch-head h2 { margin-top: 10px; font-size: 24px; } .dispatch-head h3 { font-size: 15px; } .dispatch-head p { font-size: 10px; } .dispatch-meta { padding: 7px 11px; font-size: 11px; } .dispatch-section-title { padding: 5px 11px; font-size: 13px; } .dispatch-table th, .dispatch-table td { padding: 5px 6px; font-size: 11px; } .dispatch-table td { height: 120px; } .dispatch-value-field { height: 110px; min-height: 110px; } .dispatch-reference, .dispatch-pending, .dispatch-total, .dispatch-footer { font-size: 11px; } .dispatch-reference { padding: 7px 11px; } .dispatch-pending { padding: 7px 11px 3px; } .dispatch-pending-row { grid-template-columns: 22px minmax(205px, 1.3fr) minmax(110px, .75fr) minmax(125px, .9fr); gap: 7px; padding: 3px 0; } .dispatch-total { padding: 5px 11px; } .dispatch-footer { min-height: 95px; padding: 38px 22px 8px; } }`}</style>
+    <style>{` .dispatch-meta { grid-template-columns: minmax(0, 1fr) 180px; font-size: 13px; font-weight: 700; } .dispatch-meta label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px; align-items: start; } .dispatch-meta label > div { min-width: 0; display: grid; gap: 3px; } .dispatch-buyer-name, .dispatch-buyer-address { width: 100%; min-width: 0; border: 0; border-bottom: 1px dotted #7180a7; background: transparent; color: #1e397f; font: inherit; font-weight: 700; } .dispatch-buyer-address { height: 42px; resize: none; line-height: 1.35; } .dispatch-meta select { width: fit-content; max-width: 100%; } .dispatch-section-title { font-size: 16px; } .dispatch-table th, .dispatch-table td { font-size: 13px; font-weight: 700; } .dispatch-reference, .dispatch-pending, .dispatch-total, .dispatch-footer { font-size: 13px; font-weight: 700; } .dispatch-pending-row { display: grid; grid-template-columns: 28px minmax(230px, 1.3fr) minmax(130px, .75fr) minmax(150px, .9fr); gap: 10px; align-items: center; padding: 5px 0; } .dispatch-pending-row > span { min-width: 0; } .dispatch-pending-row input, .dispatch-pending-row select { max-width: 100%; } .dispatch-total { text-align: right; } .dispatch-footer { min-height: 130px; padding: 58px 28px 12px; display: flex; justify-content: space-between; align-items: flex-start; } .dispatch-footer strong { margin-left: auto; } @media print { .dispatch-head { min-height: 102px; padding-top: 8px; } .dispatch-logo { top: 17px; width: 78px; height: 75px; } .dispatch-head h2 { margin-top: 0; font-size: 24px; } .dispatch-head h3 { font-size: 15px; } .dispatch-head p { font-size: 10px; } .dispatch-meta { padding: 7px 11px; font-size: 11px; } .dispatch-section-title { padding: 5px 11px; font-size: 13px; } .dispatch-table th, .dispatch-table td { padding: 5px 6px; font-size: 11px; } .dispatch-table td { height: 120px; } .dispatch-value-field { height: 110px; min-height: 110px; } .dispatch-reference, .dispatch-pending, .dispatch-total, .dispatch-footer { font-size: 11px; } .dispatch-reference { padding: 7px 11px; } .dispatch-pending { padding: 7px 11px 3px; } .dispatch-pending-row { grid-template-columns: 22px minmax(205px, 1.3fr) minmax(110px, .75fr) minmax(125px, .9fr); gap: 7px; padding: 3px 0; } .dispatch-total { padding: 5px 11px; } .dispatch-footer { min-height: 95px; padding: 38px 22px 8px; } }`}</style>
     <div className="dispatch-toolbar"><button onClick={save}>Save invoice</button><button onClick={print}>Print</button></div>
     <div className="dispatch-sheet">
-      <header className="dispatch-head"><img className="dispatch-logo" src={logoImage} alt="Business logo" /><span className="dispatch-gstin">GSTIN : {seller.gstin}</span><span className="dispatch-phone"><strong className="dispatch-phone-name">B.Gurunathavallal</strong><span className="dispatch-phone-line"><span className="dispatch-phone-label">Cell</span>{formatPhoneLines(seller.phone).join(", ")}</span></span><div className="dispatch-head-copy"><h2>{seller.name}</h2><h3>{seller.tagline}</h3><p>{seller.address}</p></div></header>
+      <header className="dispatch-head"><img className="dispatch-logo" src={logoImage} alt="Business logo" /><span className="dispatch-gstin">GSTIN : {seller.gstin}</span><span className="dispatch-phone"><span className="dispatch-phone-line"><strong className="dispatch-phone-name">B.Gurunathavallal</strong>{formatPhoneLines(seller.phone).map((line, index) => (<span key={line}>{index > 0 && " / "}{line}</span>))}</span></span><div className="dispatch-head-copy"><h2>{seller.name}</h2><h3>{seller.tagline}</h3><p>{seller.address}</p></div></header>
       <div className="dispatch-meta"><label><span>To: M/s</span><div><input aria-label="Buyer name" className="dispatch-buyer-name" value={buyer.name} onChange={(event) => setBuyer({ ...buyer, name: event.target.value })} /><textarea aria-label="Buyer address" className="dispatch-buyer-address" rows={2} value={buyer.address || ""} onChange={(event) => setBuyer({ ...buyer, address: event.target.value })} />{clients.length > 0 && <select aria-label="Saved client" className="ib-print-hide" value={buyer.id || ""} onChange={(event) => { const client = clients.find((entry) => entry.id === Number(event.target.value)); if (client) setBuyer(client); }}><option value="">Select saved client</option>{clients.map((client) => <option key={client.id} value={client.id}>{client.name}</option>)}</select>}</div></label><label><span>Dispatch No.</span><input aria-label="Dispatch number" value={invoiceNo} onChange={(event) => setInvoiceNo(event.target.value)} /><span>Date</span><input aria-label="Dispatch date" type="date" value={invoiceDate} onChange={(event) => setInvoiceDate(event.target.value)} /></label></div>
       <h3 className="dispatch-section-title">To day we have dispatched</h3>
       <h4 className="dispatch-section-title">1. BABBINS</h4><table className="dispatch-table"><thead><tr><th><span className="dispatch-column-title">ILAI</span></th><th><span className="dispatch-column-title">MTRS</span></th><th><span className="dispatch-column-title">TOTAL<br />BABBINS Nos</span></th></tr></thead><tbody><tr><td>{multiLineField("bobbins")}</td><td>{multiLineField("bobbinMeters")}</td><td>{multiLineField("totalBobbins")}</td></tr></tbody></table>
@@ -314,9 +314,9 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           letter-spacing: 0.01em;
           color: var(--accent);
           border: none;
-          background: transparent;
+          background: radial-gradient(circle, rgba(30,57,127,0.22) 1px, transparent 1.2px) 0 0 / 6px 6px;
           width: 100%;
-          padding: 0;
+          padding: 4px 10px;
         }
         .ib-brand-tagline {
           margin-top: 3px;
@@ -339,16 +339,18 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           font-family: inherit;
         }
         .ib-brand-row {
-          margin-top: 6px;
+          margin-top: 2px;
           display: flex;
           gap: 6px;
           font-size: 12px;
           align-items: baseline;
         }
         .ib-brand-row label { color: var(--muted); white-space: nowrap; }
-        .ib-phone-name { display: block; font-size: 11px; font-weight: 800; text-align: right; margin-bottom: 2px; }
+        .ib-phone-name { display: inline; font-size: 11px; font-weight: 800; text-align: right; margin: 0; }
         .ib-phone-row { display: flex; flex-direction: column; align-items: flex-end; }
-        .ib-phone-values { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; }
+        .ib-phone-values { display: flex; align-items: center; justify-content: flex-end; gap: 2px; padding-bottom: 4px; }
+        .ib-phone-entry { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+        .ib-phone-numbers { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; white-space: nowrap; font-size: 9.5px; }
 
         .ib-meta {
           padding: 20px 18px 16px;
@@ -558,8 +560,8 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
           align-items: flex-end;
           text-align: right;
         }
-        .ib-sign-for { font-size: 12.5px; margin-bottom: 40px; }
-        .ib-sign-line { font-size: 11px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 4px; width: 180px; }
+        .ib-sign-for { font-size: 12.5px; margin-bottom: 12px; }
+        .ib-sign-line { font-size: 11px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 4px; width: 180px; margin-top: 8px; }
 
         @media (max-width: 640px) {
           .ib-letterhead, .ib-parties, .ib-summary-block, .ib-footer { grid-template-columns: 1fr; }
@@ -586,7 +588,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-sheet { width: min(100%, 760px); min-height: 1060px; max-width: 760px; border: 2px solid #171717; background: #fff; font-size: 12.5px; line-height: 1.25; box-shadow: 0 8px 22px rgba(0, 0, 0, .12); }
         .ib-letterhead { min-height: 240px; display: block; position: relative; border-bottom: 2px solid #171717; }
         .ib-brand { min-height: 238px; padding: 48px 18px 84px; border: 0; text-align: center; }
-        .ib-brand-name { display: block; width: min(100%, 500px); margin: 0 auto 5px; padding: 5px 12px 4px; border: 3px solid #1e397f; border-radius: 5px; color: #1e397f; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 800; letter-spacing: .01em; }
+        .ib-brand-name { display: block; width: min(100%, 500px); margin: 0 auto 5px; padding: 5px 12px 4px; border: 3px solid #1e397f; border-radius: 5px; background: radial-gradient(circle, rgba(30,57,127,0.22) 1px, transparent 1.2px) 0 0 / 6px 6px; color: #1e397f; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 800; letter-spacing: .01em; }
         .ib-brand-tagline { display: block; margin: 0 auto 5px; color: #111; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 16px; font-weight: 700; text-transform: uppercase; }
         .ib-brand-address { display: block; width: 100%; height: 34px; margin: 0 auto; color: #111; text-align: center; font-size: 12px; line-height: 1.35; }
         .ib-brand-row { position: absolute; top: 9px; margin: 0; gap: 5px; font-size: 11px; }
@@ -618,7 +620,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-items thead th:nth-child(5) { width: 92px !important; }
         .ib-items thead th:nth-child(6) { width: 112px !important; }
         .ib-items thead th:last-child { width: 25px !important; border-right: 0; }
-        .ib-items tbody td { height: 92px; padding: 5px 7px; border-right: 1px solid #171717; border-bottom: 0; }
+        .ib-items tbody td { height: 80px; padding: 5px 7px; border-right: 1px solid #171717; border-bottom: 0; }
         .ib-items tbody tr:first-child td { height: auto; }
         .ib-items tbody td:last-child { border-right: 0; }
         .ib-cell-input { color: #111; font-size: 13px; }
@@ -629,7 +631,7 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-add-row { padding: 7px 9px; border-bottom: 0; color: #333; }
         .ib-tax-toggle { justify-content: flex-end; gap: 6px; padding: 5px 10px; border-bottom: 1px solid #777; font-size: 10px; }
         .ib-tax-toggle button { padding: 2px 6px; border-radius: 0; color: #111; }
-        .ib-summary-block { grid-template-columns: 53% 47%; min-height: 190px; border-bottom: 2px solid #171717; }
+        .ib-summary-block { grid-template-columns: 53% 47%; min-height: 160px; border-bottom: 2px solid #171717; }
         .ib-words { padding: 10px 13px; border-right: 1.5px solid #171717; }
         .ib-words-label { color: #111; font-size: 11px; font-weight: 700; }
         .ib-words-value { min-height: 24px; color: #111; font-size: 12px; }
@@ -637,15 +639,15 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-totals-row { min-height: 31px; padding: 7px 12px; border-bottom: 1px solid #777; font-size: 12px; }
         .ib-totals-row label { color: #111; font-weight: 700; }
         .ib-totals-row.ib-grand { min-height: 45px; border-top: 1px solid #171717; font-size: 16px; }
-        .ib-footer { min-height: 170px; grid-template-columns: 53% 47%; border-top: 0; }
+        .ib-footer { min-height: 150px; grid-template-columns: 53% 47%; border-top: 0; }
         .ib-bank { padding: 10px 13px; border-right: 1.5px solid #171717; }
         .ib-bank-label { color: #111; font-size: 11px; font-weight: 700; text-transform: uppercase; }
         .ib-bank-row { gap: 5px; margin-bottom: 4px; font-size: 11px; }
         .ib-bank-row label { min-width: 78px; color: #111; font-weight: 700; }
         .ib-bank-row input { color: #111; }
         .ib-sign { padding: 10px 13px; align-items: flex-end; }
-        .ib-sign-for { margin-bottom: 58px; color: #111; font-size: 14px; font-weight: 700; }
-        .ib-sign-line { width: 190px; color: #111; border-color: #171717; text-align: center; }
+        .ib-sign-for { margin-bottom: 12px; color: #111; font-size: 14px; font-weight: 700; }
+        .ib-sign-line { width: 190px; color: #111; border-color: #171717; text-align: center; margin-top: 8px; }
         .ib-brand { min-height: 226px; padding: 34px 18px 72px 148px; text-align: left; }
         .ib-brand-logo { position: absolute; left: 18px; top: 18px; width: 112px; aspect-ratio: 1; object-fit: contain; border: 1px solid #171717; }
         .ib-brand-name, .ib-brand-tagline { text-align: left; margin-left: 0; }
@@ -677,18 +679,18 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-transport-row strong { flex: 0 0 auto; white-space: nowrap; }
         .ib-transport-row input { flex: 1; min-width: 0; }
         @media (max-width: 640px) { .ib-brand { padding: 122px 18px 72px; } .ib-brand-logo { width: 82px; } .ib-brand-row:first-of-type, .ib-brand-row:last-of-type { left: 18px; } .ib-dispatch-row, .ib-dispatch-details { grid-template-columns: 1fr; gap: 2px; } .ib-customer-gst { grid-template-columns: 1fr; gap: 6px; } .ib-customer-gst span + span { padding-left: 0; } }
-        @media print { @page { size: A4 portrait; margin: 0; } .ib-root { width: 210mm; height: 297mm; min-height: 297mm; padding: 0; } .ib-sheet { width: 210mm; max-width: 210mm; height: 297mm; min-height: 297mm; box-shadow: none; } }
+        @media print { @page { size: A4 portrait; margin: 0; } .ib-root { width: 210mm; height: auto !important; min-height: 0; padding: 0; } .ib-sheet { width: 210mm; max-width: 210mm; height: auto !important; min-height: 0; box-shadow: none; overflow: visible; } .ib-footer { min-height: 118px; } .ib-bank-row { margin-bottom: 2px; } .ib-sign { justify-content: flex-end; } .ib-items tbody td { height: 72px; } .ib-summary-block { min-height: 120px; } }
         .ib-root { background: #eef0f5; color: #1e397f; }
         .ib-sheet { font-size: 13.5px; }
         .ib-sheet { width: min(100%, 820px); border: 2px solid #1e397f; box-shadow: 0 12px 26px rgba(30, 57, 127, .12); color: #1e397f; }
         .ib-letterhead, .ib-summary-block, .ib-footer { border-color: #1e397f; }
-        .ib-brand { min-height: 190px; padding: 30px 18px 66px; text-align: center; }
+        .ib-brand { min-height: 190px; padding: 18px 18px 52px; text-align: center; }
         .ib-brand-logo { left: 18px; top: 20px; width: 90px; border: 0; }
-        .ib-brand-name { width: min(100%, 500px); margin: 18px auto 5px; padding: 5px 12px 4px; border: 3px solid #1e397f; border-radius: 5px; color: #1e397f; text-align: center; font-size: 30px; font-weight: 900; }
+        .ib-brand-name { width: min(100%, 500px); margin: 0 auto 5px; padding: 5px 12px 4px; border: 3px solid #1e397f; border-radius: 5px; color: #1e397f; text-align: center; font-size: 30px; font-weight: 900; }
         .ib-brand-tagline, .ib-brand-address { color: #1e397f; text-align: center; }
         .ib-brand-row:first-of-type { left: 12px; }
-        .ib-brand-row.ib-phone-row { left: auto; right: 12px; top: 8px; width: 260px; }
-        .ib-phone-values { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+        .ib-brand-row.ib-phone-row { left: auto; right: 12px; top: 4px; width: 260px; }
+        .ib-phone-values { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
         .ib-phone-values span { white-space: nowrap; }
         .ib-brand-row label, .ib-brand-row .ib-field, .ib-meta-row label, .ib-party-label, .ib-party-inline label, .ib-totals-row label, .ib-bank-row label, .ib-bank-label { color: #1e397f; }
         .ib-parties { grid-template-columns: 60% 40%; }
@@ -702,10 +704,11 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
         .ib-totals-row { min-height: 31px; border-color: #8393bd; }
         .ib-totals-row.ib-grand { border-color: #1e397f; }
         .ib-sign { align-items: center; text-align: center; }
-        .ib-sign-for { margin-bottom: 58px; }
-        .ib-sign-line { text-align: center; }
+        .ib-sign-for { margin-bottom: 12px; }
+        .ib-sign-line { text-align: center; margin-top: 8px; }
         @media print { .ib-brand-name { border: 3px solid #1e397f !important; } }
         @media (max-width: 640px) { .ib-brand { padding: 120px 18px 66px; } .ib-brand-logo { left: 18px; top: 18px; width: 72px; } .ib-brand-row:first-of-type, .ib-brand-row:last-of-type { left: 18px; right: auto; } .ib-sheet { width: 100%; } }
+        @media print { @page { size: A4 portrait; margin: 0; } .ib-root { width: 210mm !important; height: auto !important; min-height: 0 !important; padding: 0 !important; } .ib-sheet { width: 210mm !important; max-width: 210mm !important; min-height: 297mm !important; height: 297mm !important; box-shadow: none !important; overflow: visible !important; border-bottom: 2px solid #1e397f !important; } .ib-footer { min-height: 138px !important; border-top: 2px solid #1e397f !important; border-bottom: 2px solid #1e397f !important; } .ib-bank-row { margin-bottom: 1px !important; } .ib-sign { justify-content: flex-end !important; padding-top: 8px !important; min-height: 126px !important; align-items: flex-end !important; } .ib-items tbody td { height: 72px !important; } .ib-summary-block { min-height: 118px !important; border-bottom: none !important; } }
       `}</style>
 
       <div className="ib-toolbar">
@@ -753,8 +756,10 @@ export default function InvoiceBill({ initialBuyer, initialRows, initialInvoice,
             </div>
             <div className="ib-brand-row ib-phone-row">
               <div className="ib-phone-values">
-                <span className="ib-phone-name">B.Gurunathavallal</span>
-                <span style={{ display: "flex", alignItems: "center", gap: 6 }}><label>Cell</label>{formatPhoneLines(seller.phone).map((line) => <span key={line}>{line}</span>)}</span>
+                <span className="ib-phone-entry">
+                  <span className="ib-phone-name">B.Gurunathavallal</span>
+                  <span className="ib-phone-numbers">{formatPhoneLines(seller.phone).map((line, index) => <span key={line}>{index > 0 && " / "}{line}</span>)}</span>
+                </span>
               </div>
             </div>
           </div>

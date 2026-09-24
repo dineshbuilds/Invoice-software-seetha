@@ -8,7 +8,7 @@ let db: Database.Database
 
 const defaultProfile: BusinessProfile = {
   name: 'G. VIJAYASAMUNDESWARI', tagline: 'HANDLOOM YARN DESIGNER JOB WORKS', address: '15/32-A.3, Lakshmana Naicker Street, NEIKARAPATTI - 624 615.\nPALANI (Tk), DINDIGUL (Dt), TAMILNADU.',
-  gstin: '33BGOPG1646D1ZN', state_code: '33', state_name: 'Tamil Nadu', phone: '094427 50948', account_name: 'Vijayasamundeswari.G', bank_name: 'STATE BANK OF INDIA', acc_no: '33184314150', ifsc: 'SBIN0002241', branch: 'Neikkarapatti Branch',
+  gstin: '33BGOPG1646D1ZN', state_code: '33', state_name: 'Tamil Nadu', phone: '094427 50948 / 094425 93708', account_name: 'Vijayasamundeswari.G', bank_name: 'STATE BANK OF INDIA', acc_no: '33184314150', ifsc: 'SBIN0002241', branch: 'Neikkarapatti Branch',
   default_tax_rate: 5, invoice_prefix: '', invoice_start_number: 1, dispatch_invoice_start_number: 1, archive_path: ''
 }
 
